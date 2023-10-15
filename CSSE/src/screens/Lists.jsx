@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { styles } from "../styles/ListsStyles";
 import { fetchDeliveryData } from "../services/ListServices";
 import imageSource from "../../assets/Picture2.png";
-import { formatDate } from "../components/DateFormat";
+import { formatDate } from "../utils/DateFormat";
 
 
 
@@ -22,8 +22,8 @@ const Lists = ({ route }) => {
         setDelivery(deliveryData);
 
         if (deliveryData.length > 0) {
-          setOrderNo(deliveryData[0].orderNo);
-          console.log(deliveryData[0].orderNo);
+          setOrderNo(deliveryData[0].orderID);
+          console.log(deliveryData[0].orderID);
         } else {
           console.log("No delivery items found.");
         }
@@ -36,14 +36,32 @@ const Lists = ({ route }) => {
     return () => unsubscribe();
   }, []);
 
- const handleItemPress = (orderNo, status) => {
+ const handleItemPress = (orderNo, status,deliveryid) => {
    if (status === "Pending") {
      console.log(orderNo);
-     router.push(`/delivery_page/${orderNo}`);
+      router.push({
+      pathname: `/delivery_page/${orderNo}`,
+      params: {
+        deliveryObId: deliveryid,
+      },
+    })
    } else if (status === "Rejected") {
-     router.push(`/reject_details/${orderNo}`);
+        console.log(orderNo);
+        router.push({
+          pathname: `/reject_details/${orderNo}`,
+          params: {
+            deliveryObId: deliveryid,
+          },
+        });
       } else if (status === "Approved") {
-        router.push(`/approve_details/${orderNo}`);
+        
+         router.push({
+           pathname: `/approve_details/${orderNo}`,
+           params: {
+             deliveryObId: deliveryid,
+           },
+         });
+        
       } else {
         console.log("Category not available");
       }
@@ -51,13 +69,15 @@ const Lists = ({ route }) => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => handleItemPress(item.orderNo, item.status)}
+      onPress={() =>
+        handleItemPress(item.orderID, item.status, item.deliveryId)
+      }
     >
       <View style={styles.card}>
-        <Text style={styles.mainText}>{item.ItemName}</Text>
+        <Text style={styles.mainText}>{item.itemName}</Text>
         <Text style={styles.subText}>Delivery ID : {item.deliveryId}</Text>
-        <Text style={styles.subText}>Order ID : {item.orderNo}</Text>
-         <Image source={imageSource} style={styles.cardImage} /> 
+        <Text style={styles.subText}>Order ID : {item.orderID}</Text>
+        <Image source={imageSource} style={styles.cardImage} />
       </View>
     </TouchableOpacity>
   );

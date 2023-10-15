@@ -6,10 +6,11 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Image
+  Image,
+  Alert
 } from "react-native";
 import { RadioButton } from "react-native-paper";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { styles } from "../styles/CheckDetailsStyles";
 import { updateOrderAndDelivery } from "../services/CheckDetailsService";
 import imageSource from "../../assets/delcheck.png";
@@ -35,13 +36,13 @@ const DeliveryDetails = (props) => {
   const itemName =props.itmName
   const restItems = props.rest
 
- console.log(restItems)
-console.log(orderNo);
+ console.log("rest",restItems)
+// console.log(orderNo);
 
 
    const handleSave = async () => {
      setLoading(true);
-     console.log(condition)
+    //  console.log(condition)
      try {
        const success = await updateOrderAndDelivery(
          orderid,
@@ -54,22 +55,50 @@ console.log(orderNo);
          arrivedQuantity
        );
        if (success) {
-         // Update successful
+         // Show an alert when the Accept action is successful
+         Alert.alert("Delivery Approved", "The delivery has been approved.", [
+           {
+             text: "OK",
+             onPress: () => {
+               // Navigate to the home page or perform the desired action
+               // You should replace 'navigateToHomePage' with the actual function to navigate home.
+               <Link href="/index"></Link>;
+             },
+           },
+         ]);
          setLoading(false);
        } else {
          // Handle error (if needed)
-         console.error("Update failed.");
+        Alert.alert(
+          "Update Faild"
+        );
          setLoading(false);
        }
      } catch (error) {
        // Handle any exceptions that occur during the update process
-       console.error("An error occurred during the update:", error);
+     Alert.alert("An error occurred during the update:", error);
        setLoading(false);
      }
    };
 
 
   const handleItemPress = (id) => {
+     if (arrivedQuantity === "") {
+      // Show an alert message if Arrived Quantity is empty
+      Alert.alert("Arrived Quantity Required", "Please fill the Arrived Quantity field.");
+    } else {
+      console.log(  expectedQuantity,
+       deliveryNoticeQuantity,
+        orderNo,
+        orderid,
+        delid,
+        deleNo,
+       supId,
+         supName,
+        itemName,
+         condition,
+        deliveredOnTime,
+       arrivedQuantity)
     router.push({
       pathname: `/reject_page/${id}`,
       params: {
@@ -88,6 +117,7 @@ console.log(orderNo);
       },
     }); //when need to pass multiple value with link use this method
     console.log(`Clicked with form ${id}`);
+  }
   };
 
   useEffect(() => {

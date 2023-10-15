@@ -19,7 +19,7 @@ const DeliveryDetail = () => {
     const rest =params.rest
 
 
-console.log(orderNo);
+// console.log("this",rest);
 //  console.log(itmName);
 //  console.log(deliveryId);
 //  console.log(deliveryNumber);

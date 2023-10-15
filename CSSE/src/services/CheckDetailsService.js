@@ -37,6 +37,7 @@ export async function updateOrderAndDelivery(
     const deliveryDocRef = doc(db, "delivery", delid);
     const updatedDeliveryData = {
       status: "Approved",
+      approvedDate: serverTimestamp(),
     };
 
     await updateDoc(deliveryDocRef, updatedDeliveryData);

@@ -23,6 +23,10 @@ function CheckDeliveryButton({ onPress }) {
 
 export default function DeliveryNote(props) {
   const orderID = props.orderId;
+  const deliveryObId = props.deliveryObId;;
+
+  console.log(orderID)
+  console.log(deliveryObId);
 
   const [deliveryDetails, setDeliveryDetails] = useState({});
   const [orderDetails, setOrderDetails] = useState({});
@@ -32,7 +36,7 @@ export default function DeliveryNote(props) {
     setLoading(true);
 
     fetchDeliveryDetails(
-      orderID,
+      orderID,deliveryObId,
       (data) => {
         setDeliveryDetails(data);
         console.log(data);
@@ -44,20 +48,35 @@ export default function DeliveryNote(props) {
         setLoading(false);
       }
     );
+    console.log(deliveryDetails)
   }, [orderID]);
 
   const handleItemPress = (id) => {
-    console.log("hi" + orderDetails.rest);
+   
+    // console.log(orderDetails);
+    // console.log("hi" + orderDetails.rest);
+    // console.log(
+    //   orderID,
+    //   deliveryDetails.itemName,
+    //   deliveryDetails.id,
+    //   deliveryDetails.deliveryId,
+    //   deliveryDetails.itemQty,
+    //   orderDetails.quantity,
+    //   deliveryDetails.supID,
+    //   deliveryDetails.supName,
+    //   orderDetails.rest
+    // );
     router.push({
       pathname: `/delivery_details/${id}`,
+      
       params: {
         orderNo: orderID,
-        itmName: deliveryDetails.ItemName,
+        itmName: deliveryDetails.itemName,
         deliveryId: deliveryDetails.id,
         deliveryNumber: deliveryDetails.deliveryId,
-        delItemCount: deliveryDetails.ItemQty,
+        delItemCount: deliveryDetails.itemQty,
         OrderId: orderDetails.id,
-        expectOrderQun: orderDetails.ItemQty,
+        expectOrderQun: orderDetails.quantity,
         supId: deliveryDetails.supID,
         supName: deliveryDetails.supName,
         rest: orderDetails.rest,
@@ -65,6 +84,7 @@ export default function DeliveryNote(props) {
     }); //when need to pass multiple value with link use this method
     console.log(`Clicked with form ${id}`);
   };
+  
   if (loading) {
     // Show a loading indicator here
     return null;
@@ -79,19 +99,11 @@ export default function DeliveryNote(props) {
 
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Item Name:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.ItemName}</Text>
+        <Text style={styles.detailValue}>{deliveryDetails.itemName}</Text>
       </View>
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Item Quantity:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.ItemQty}</Text>
-      </View>
-      <View style={styles.detailItem}>
-        <Text style={styles.detailLabel}>Category:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.category}</Text>
-      </View>
-      <View style={styles.detailItem}>
-        <Text style={styles.detailLabel}>Expected Delivery Count:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.delCount}</Text>
+        <Text style={styles.detailValue}>{deliveryDetails.itemQty}</Text>
       </View>
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Delivery ID:</Text>
@@ -99,7 +111,7 @@ export default function DeliveryNote(props) {
       </View>
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Order ID:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.orderNo}</Text>
+        <Text style={styles.detailValue}>{deliveryDetails.orderID}</Text>
       </View>
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Supplier ID:</Text>
@@ -109,7 +121,13 @@ export default function DeliveryNote(props) {
         <Text style={styles.detailLabel}>Supplier Name:</Text>
         <Text style={styles.detailValue}>{deliveryDetails.supName}</Text>
       </View>
-      <CheckDeliveryButton onPress={() => handleItemPress(orderID)} />
+      <CheckDeliveryButton
+        onPress={() => {
+          if (Object.keys(orderDetails).length > 0) {
+            handleItemPress(orderID);
+          }
+        }}
+      />
     </ScrollView>
   );
 }

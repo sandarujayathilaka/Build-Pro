@@ -7,10 +7,11 @@ const RejectDetailsPage = () => {
   const params = useGlobalSearchParams();
 
   const orderId = params.id;
+  const deliveryObId = params.deliveryObId;
 
   return (
     <View>
-      <RejectionDetails orderId={orderId} />
+      <RejectionDetails orderId={orderId} deliveryObId={deliveryObId} />
     </View>
   );
 };

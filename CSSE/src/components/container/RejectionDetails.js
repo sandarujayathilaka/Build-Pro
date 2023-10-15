@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import RejectionDetailPresentation from "../components/RejectionDetails"; // Import the Presentation component
-import LoadingIndicator from "../components/LoadingIndecator";
-import { fetchDeliveryDetails } from "../services/DeliveryNoteService";
+import RejectionDetailPresentation from "../presentation/RejectionDetails"; // Import the Presentation component
+import LoadingIndicator from "../shared/LoadingIndecator";
+import { fetchDeliveryDetails } from "../../services/DeliveryNoteService";
 
 function RejectionDetailContainer(props) {
   const orderID = props.orderId;
+  const deliveryObId = props.deliveryObId;
 
   const [deliveryDetails, setDeliveryDetails] = useState({});
   const [orderDetails, setOrderDetails] = useState({});
@@ -14,7 +15,7 @@ function RejectionDetailContainer(props) {
     setLoading(true);
 
     fetchDeliveryDetails(
-      orderID,
+      orderID,deliveryObId,
       (data) => {
         setDeliveryDetails(data);
         console.log(data);

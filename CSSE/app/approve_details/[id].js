@@ -7,10 +7,11 @@ const ApproveDetailsPage = () => {
   const params = useGlobalSearchParams();
 
   const orderId = params.id;
+  const deliveryObId = params.deliveryObId;
 
   return (
     <View>
-      <ApproveDetails orderId={orderId} />
+      <ApproveDetails orderId={orderId} deliveryObId={deliveryObId} />
     </View>
   );
 };

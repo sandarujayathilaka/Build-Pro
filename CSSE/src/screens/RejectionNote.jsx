@@ -41,9 +41,9 @@ const DeliveryDetails = (props) => {
   const deliveredOnTime = props.deliveredOnTime
   const arrivedQuantity= props.arrivedQuantity
 
-  console.log(orderid)
-  console.log(orderid);
-  console.log(delid);
+  // console.log(orderid)
+  // console.log(orderid);
+  // console.log(delid);
 
  const handleSave = async () => {
    setLoading(true);

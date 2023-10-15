@@ -8,13 +8,13 @@ const DeliveryPage = () => {
         const params = useGlobalSearchParams();
 
         const orderId = params.id;
-     
+      const deliveryObId = params. deliveryObId;
 
   return (
     <View>
-     <DeliveryNote orderId={orderId}/>
+      <DeliveryNote orderId={orderId} deliveryObId ={deliveryObId}/>
     </View>
-  )
+  );
 }
 
 export default DeliveryPage

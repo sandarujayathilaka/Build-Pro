@@ -1,14 +1,15 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
-export async function fetchDeliveryDetails(orderID, callbackDel,callbackOrder) {
+export async function fetchDeliveryDetails(orderID,deliveryObId,callbackDel,callbackOrder) {
   if (!orderID) {
     return;
   }
+console.log(orderID)
 
   const deliveryDataQuery = query(
     collection(db, "delivery"),
-    where("orderNo", "==", orderID)
+    where("deliveryId", "==", deliveryObId)
   );
 
   try {
@@ -28,7 +29,7 @@ export async function fetchDeliveryDetails(orderID, callbackDel,callbackOrder) {
 
     const orderDataQuery = query(
       collection(db, "Order"),
-      where("orderNo", "==", orderID)
+      where("orderID", "==", orderID)
     );
 
     const orderSnapshot = await getDocs(orderDataQuery);
