@@ -5,7 +5,7 @@ export async function fetchDeliveryDetails(orderID,deliveryObId,callbackDel,call
   if (!orderID) {
     return;
   }
-console.log(orderID)
+console.log("DeliveryNoteService :",deliveryObId)
 
   const deliveryDataQuery = query(
     collection(db, "delivery"),
@@ -26,7 +26,7 @@ console.log(orderID)
     } else {
       console.log("Delivery document not found");
     }
-
+console.log("DeliveryNoteService :", orderID);
     const orderDataQuery = query(
       collection(db, "Order"),
       where("orderID", "==", orderID)

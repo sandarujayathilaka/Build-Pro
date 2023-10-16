@@ -17,6 +17,7 @@ const DeliveryDetail = () => {
     const supId= params.supId
     const supName= params.supName
     const rest =params.rest
+    const itemID = params.itemID;
 
 
 // console.log("this",rest);
@@ -39,6 +40,7 @@ const DeliveryDetail = () => {
         supId={supId}
         supName={supName}
         rest={rest}
+        itemID={itemID}
       />
     </View>
   );

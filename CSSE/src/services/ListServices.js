@@ -2,7 +2,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
 export function fetchDeliveryData(category,callback) {
-  console.log(category)
+  console.log("fetchDeliveryData",category)
   const deliveryDataQuery = query(
     collection(db, "delivery"),
     where("status", "==", category)

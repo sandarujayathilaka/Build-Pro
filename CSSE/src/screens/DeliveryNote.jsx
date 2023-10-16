@@ -25,31 +25,35 @@ export default function DeliveryNote(props) {
   const orderID = props.orderId;
   const deliveryObId = props.deliveryObId;;
 
-  console.log(orderID)
-  console.log(deliveryObId);
+  // console.log(orderID)
+  // console.log(deliveryObId);
 
   const [deliveryDetails, setDeliveryDetails] = useState({});
   const [orderDetails, setOrderDetails] = useState({});
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
+  useEffect(
+    () => {
+      setLoading(true);
 
-    fetchDeliveryDetails(
-      orderID,deliveryObId,
-      (data) => {
-        setDeliveryDetails(data);
-        console.log(data);
-        setLoading(false);
-      },
-      (data) => {
-        setOrderDetails(data);
-        console.log(data);
-        setLoading(false);
-      }
-    );
-    console.log(deliveryDetails)
-  }, [orderID]);
+      fetchDeliveryDetails(
+        orderID,
+        deliveryObId,
+        (data) => {
+          setDeliveryDetails(data);
+          // console.log(data);
+          setLoading(false);
+        },
+        (data) => {
+          setOrderDetails(data);
+          // console.log(data);
+          setLoading(false);
+        }
+      );
+      // console.log(deliveryDetails)
+    },
+    [orderID,deliveryObId]
+  );
 
   const handleItemPress = (id) => {
    
@@ -68,7 +72,7 @@ export default function DeliveryNote(props) {
     // );
     router.push({
       pathname: `/delivery_details/${id}`,
-      
+
       params: {
         orderNo: orderID,
         itmName: deliveryDetails.itemName,
@@ -80,6 +84,7 @@ export default function DeliveryNote(props) {
         supId: deliveryDetails.supID,
         supName: deliveryDetails.supName,
         rest: orderDetails.rest,
+        itemID: orderDetails.itemNo,
       },
     }); //when need to pass multiple value with link use this method
     console.log(`Clicked with form ${id}`);
@@ -96,15 +101,6 @@ export default function DeliveryNote(props) {
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.delImage} />
       </View>
-
-      <View style={styles.detailItem}>
-        <Text style={styles.detailLabel}>Item Name:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.itemName}</Text>
-      </View>
-      <View style={styles.detailItem}>
-        <Text style={styles.detailLabel}>Item Quantity:</Text>
-        <Text style={styles.detailValue}>{deliveryDetails.itemQty}</Text>
-      </View>
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Delivery ID:</Text>
         <Text style={styles.detailValue}>{deliveryDetails.deliveryId}</Text>
@@ -112,6 +108,28 @@ export default function DeliveryNote(props) {
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Order ID:</Text>
         <Text style={styles.detailValue}>{deliveryDetails.orderID}</Text>
+      </View>
+      <View style={styles.detailItem}>
+        <Text style={styles.detailLabel}>Item Name:</Text>
+        <Text style={styles.detailValue}>{deliveryDetails.itemName}</Text>
+      </View>
+      
+      <View style={styles.detailItem}>
+        <Text style={styles.detailLabel}>Delivery Mode:</Text>
+        <View
+          style={
+            deliveryDetails.deliveryType === "Partial"
+              ? styles.partialMode
+              : styles.deliveryMode
+          }
+        >
+          <Text style={styles.modeText}>{deliveryDetails.deliveryType}</Text>
+        </View>
+      </View>
+
+      <View style={styles.detailItem}>
+        <Text style={styles.detailLabel}>Item Quantity:</Text>
+        <Text style={styles.detailValue}>{deliveryDetails.itemQty}</Text>
       </View>
       <View style={styles.detailItem}>
         <Text style={styles.detailLabel}>Supplier ID:</Text>

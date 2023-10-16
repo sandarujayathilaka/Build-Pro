@@ -19,9 +19,10 @@ import * as MediaLibrary from "expo-media-library";
 import { Feather } from "@expo/vector-icons"; // Add this line
 import { styles } from "../styles/RejectNoteStyles";
 import { updateDeliveryStatus } from "../services/RejectionNoteService";
+import { Alert } from "react-native";
 
 
-const DeliveryDetails = (props) => {
+const RejectionNote = (props) => {
   const [condition, setCondition] = useState("Acceptable");
   const [OrderState, setOrderState] = useState("No");
   const [rejectNote, setRejectNote] = useState("");
@@ -47,21 +48,37 @@ const DeliveryDetails = (props) => {
 
  const handleSave = async () => {
    setLoading(true);
-   const success = await updateDeliveryStatus(
-     delid,
-     rejectNote,
-     conditionReject,
-     orderid,
-     deliveredOnTime,
-     arrivedQuantity,
-     OrderState
-   );
+   try {
+     const success = await updateDeliveryStatus(
+       delid,
+       rejectNote,
+       conditionReject,
+       orderid,
+       deliveredOnTime,
+       arrivedQuantity,
+       OrderState
+     );
 
-   if (success) {
-     // Update successful
-     setLoading(false);
-   } else {
-     // Handle error
+     if (success) {
+       Alert.alert("Delivery Approved", "The delivery has been approved.", [
+         {
+           text: "OK",
+           onPress: () => {
+             // Navigate to the home page or perform the desired action
+             // You should replace 'navigateToHomePage' with the actual function to navigate home.
+             router.push(`/home/homeredirect`);
+           },
+         },
+       ]);
+       setLoading(false);
+     } else {
+       // Handle error
+       setLoading(false);
+     }
+   } catch (error) {
+     console.error("An error occurred:", error);
+     // Handle the error as needed, e.g., show an error message
+     Alert.alert("Error", "An error occurred while saving the data.");
      setLoading(false);
    }
  };
@@ -134,4 +151,4 @@ const DeliveryDetails = (props) => {
 };
 
 
-export default DeliveryDetails;
+export default RejectionNote;

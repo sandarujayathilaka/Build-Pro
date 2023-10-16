@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     padding: 16,
     backgroundColor: "#fff",
-    height:"100%"
+    height: "100%",
   },
   label: {
     fontSize: 24,
@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     fontWeight: "bold",
-    
   },
   imageContainer: {
     flex: 1,
@@ -44,6 +43,20 @@ export const styles = StyleSheet.create({
   delImage: {
     width: "100%",
     height: 250,
-    marginBottom:40
+    marginBottom: 40,
+  },
+  deliveryMode: {
+    backgroundColor: "green",
+    padding: 5,
+    borderRadius: 5,
+  },
+  partialMode: {
+    backgroundColor: "orange",
+    padding: 5,
+    borderRadius: 5,
+  },
+  modeText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

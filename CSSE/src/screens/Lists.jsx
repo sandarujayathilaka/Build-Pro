@@ -73,10 +73,18 @@ const Lists = ({ route }) => {
         handleItemPress(item.orderID, item.status, item.deliveryId)
       }
     >
-      <View style={styles.card}>
+      <View
+        style={
+          item.status === "Pending"
+            ? styles.card
+            : item.status === "Approved"
+            ? styles.cardAccept
+            : styles.cardReject
+        }
+      >
         <Text style={styles.mainText}>{item.itemName}</Text>
-        <Text style={styles.subText}>Delivery ID : {item.deliveryId}</Text>
-        <Text style={styles.subText}>Order ID : {item.orderID}</Text>
+        <Text style={styles.subText}>Delivery ID: {item.deliveryId}</Text>
+        <Text style={styles.subText}>Order ID: {item.orderID}</Text>
         <Image source={imageSource} style={styles.cardImage} />
       </View>
     </TouchableOpacity>

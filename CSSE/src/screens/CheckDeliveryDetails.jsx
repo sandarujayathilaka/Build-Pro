@@ -14,8 +14,10 @@ import { Link, router } from "expo-router";
 import { styles } from "../styles/CheckDetailsStyles";
 import { updateOrderAndDelivery } from "../services/CheckDetailsService";
 import imageSource from "../../assets/delcheck.png";
+import {calDoneQty} from "../utils/doneQty"
 
-const DeliveryDetails = (props) => {
+
+const CheckDeliveryDetails = (props) => {
 
   const [condition, setCondition] = useState("Acceptable");
   const [deliveredOnTime, setDeliveredOnTime] = useState("Yes");
@@ -35,8 +37,9 @@ const DeliveryDetails = (props) => {
   const supName = props.supName
   const itemName =props.itmName
   const restItems = props.rest
+  const itemID = props.itemID;
 
- console.log("rest",restItems)
+ //console.log("rest",restItems)
 // console.log(orderNo);
 
 
@@ -52,7 +55,8 @@ const DeliveryDetails = (props) => {
          deleNo,
          condition,
          deliveredOnTime,
-         arrivedQuantity
+         arrivedQuantity,
+         itemID
        );
        if (success) {
          // Show an alert when the Accept action is successful
@@ -62,7 +66,7 @@ const DeliveryDetails = (props) => {
              onPress: () => {
                // Navigate to the home page or perform the desired action
                // You should replace 'navigateToHomePage' with the actual function to navigate home.
-               <Link href="/index"></Link>;
+            router.push(`/home/homeredirect`)
              },
            },
          ]);
@@ -87,18 +91,18 @@ const DeliveryDetails = (props) => {
       // Show an alert message if Arrived Quantity is empty
       Alert.alert("Arrived Quantity Required", "Please fill the Arrived Quantity field.");
     } else {
-      console.log(  expectedQuantity,
-       deliveryNoticeQuantity,
-        orderNo,
-        orderid,
-        delid,
-        deleNo,
-       supId,
-         supName,
-        itemName,
-         condition,
-        deliveredOnTime,
-       arrivedQuantity)
+      // console.log(  expectedQuantity,
+      //  deliveryNoticeQuantity,
+      //   orderNo,
+      //   orderid,
+      //   delid,
+      //   deleNo,
+      //  supId,
+      //    supName,
+      //   itemName,
+      //    condition,
+      //   deliveredOnTime,
+      //  arrivedQuantity)
     router.push({
       pathname: `/reject_page/${id}`,
       params: {
@@ -116,7 +120,7 @@ const DeliveryDetails = (props) => {
         arrivedQuantity: arrivedQuantity,
       },
     }); //when need to pass multiple value with link use this method
-    console.log(`Clicked with form ${id}`);
+    // console.log(`Clicked with form ${id}`);
   }
   };
 
@@ -135,7 +139,7 @@ const DeliveryDetails = (props) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.header}>Delivery Details Checking</Text>
-       <View style={styles.imageContainer}>
+      <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.delImage} />
       </View>
       <Text style={styles.label}>Condition:</Text>
@@ -199,6 +203,10 @@ const DeliveryDetails = (props) => {
       <Text style={styles.quantityText}>
         Delivery Notice Mentioned Quantity: {deliveryNoticeQuantity}
       </Text>
+      <Text style={styles.quantityText}>
+        Already Arrived Quantity: {calDoneQty(restItems,expectedQuantity)}
+      </Text>
+
       <TextInput
         style={styles.input}
         onChangeText={(text) => {
@@ -244,6 +252,7 @@ const DeliveryDetails = (props) => {
       <TouchableOpacity
         style={
           parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity) ||
+          parseFloat(arrivedQuantity) > parseFloat(deliveryNoticeQuantity) ||
           arrivedQuantity === "" ||
           reject === "Yes" ||
           condition === "Unacceptable"
@@ -253,6 +262,7 @@ const DeliveryDetails = (props) => {
         onPress={
           !(
             parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity) ||
+            parseFloat(arrivedQuantity) > parseFloat(deliveryNoticeQuantity) ||
             arrivedQuantity === "" ||
             reject === "Yes" ||
             condition === "Unacceptable"
@@ -262,6 +272,7 @@ const DeliveryDetails = (props) => {
         }
         disabled={
           parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity) ||
+          parseFloat(arrivedQuantity) > parseFloat(deliveryNoticeQuantity) ||
           arrivedQuantity === "" ||
           reject === "Yes" ||
           condition === "Unacceptable"
@@ -274,14 +285,16 @@ const DeliveryDetails = (props) => {
         style={
           reject === "Yes" ||
           condition === "Unacceptable" ||
-          parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity)
+          parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity) ||
+          parseFloat(arrivedQuantity) > parseFloat(deliveryNoticeQuantity)
             ? styles.rejectButton
             : styles.disableButton
         }
         onPress={
           reject === "Yes" ||
           condition === "Unacceptable" ||
-          parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity)
+          parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity) ||
+          parseFloat(arrivedQuantity) > parseFloat(deliveryNoticeQuantity)
             ? handleItemPress
             : undefined
         }
@@ -289,7 +302,8 @@ const DeliveryDetails = (props) => {
           !(
             reject === "Yes" ||
             condition === "Unacceptable" ||
-            parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity)
+            parseFloat(arrivedQuantity) < parseFloat(deliveryNoticeQuantity) ||
+            parseFloat(arrivedQuantity) > parseFloat(deliveryNoticeQuantity)
           )
         }
       >
@@ -299,4 +313,4 @@ const DeliveryDetails = (props) => {
   );
 };
 
-export default DeliveryDetails;
+export default CheckDeliveryDetails;

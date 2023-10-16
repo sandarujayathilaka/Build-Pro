@@ -4,6 +4,10 @@ import {
   addDoc,
   collection,
   serverTimestamp,
+  getDoc,
+  getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
@@ -15,12 +19,14 @@ export async function updateOrderAndDelivery(
   deleNo,
   condition,
   deliveredOnTime,
-  arrivedQuantity
+  arrivedQuantity,
+  itemID
 ) {
   try {
     // Update the order document
     const orderDocRef = doc(db, "Order", orderid);
     let newStatus = "Pending";
+    const itemNo =itemID
 
     if (rest === 0) {
       newStatus = "Completed";
@@ -42,6 +48,30 @@ export async function updateOrderAndDelivery(
 
     await updateDoc(deliveryDocRef, updatedDeliveryData);
 
+   const inventoryCollectionRef = collection(db, "inventory");
+   const inventoryQuery = query(
+     inventoryCollectionRef,
+     where("itemId", "==", itemNo)
+   );
+   const inventoryQuerySnapshot = await getDocs(inventoryQuery);
+
+   if (!inventoryQuerySnapshot.empty) {
+     // There should be only one matching document
+     const inventoryDocRef = inventoryQuerySnapshot.docs[0].ref;
+
+     // Retrieve the current item quantity
+     const currentQuantity = parseFloat(inventoryQuerySnapshot.docs[0].data().qty);
+     const numericArrivedQuantity = parseFloat(arrivedQuantity);
+
+     // Calculate the new item quantity by adding arrivedQuantity
+     const newItemQuantity = currentQuantity + numericArrivedQuantity;
+
+     // Update the item quantity in the inventory document
+     await updateDoc(inventoryDocRef, { qty: newItemQuantity });
+   } else {
+     console.error(`Inventory document with itemId ${itemNo} not found.`);
+     return false; // Error occurred
+   }
     // Prepare data for the 'checkform' collection
     const checkformData = {
       orderNo: orderNo,

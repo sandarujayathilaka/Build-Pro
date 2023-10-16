@@ -10,6 +10,24 @@ export const styles = StyleSheet.create({
     borderColor: "orange", // Border color
     borderWidth: 2,
   },
+  cardReject: {
+    margin: 10,
+    height: 130,
+    padding: 16,
+    backgroundColor: "rgba(255, 0, 0, 0.1)", // Change the background color as needed
+    borderRadius: 8,
+    borderColor: "red", // Border color
+    borderWidth: 2,
+  },
+  cardAccept: {
+    margin: 10,
+    height: 130,
+    padding: 16,
+    backgroundColor: "rgba(0, 255, 0, 0.1)", // Change the background color as needed
+    borderRadius: 8,
+    borderColor: "green", // Border color
+    borderWidth: 2,
+  },
   customButton: {
     backgroundColor: "orange", // Change the button color here
     padding: 10,
