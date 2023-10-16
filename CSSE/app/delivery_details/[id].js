@@ -19,14 +19,6 @@ const DeliveryDetail = () => {
     const rest =params.rest
     const itemID = params.itemID;
 
-
-// console.log("this",rest);
-//  console.log(itmName);
-//  console.log(deliveryId);
-//  console.log(deliveryNumber);
-//  console.log(delItemCount);
-//  console.log(orderid);
-
   return (
     <View>
       <CheckDeliveryDetails
