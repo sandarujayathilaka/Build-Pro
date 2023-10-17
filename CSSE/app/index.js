@@ -1,9 +1,9 @@
 import React from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 import { Stack, useRouter } from "expo-router";
-import Lists from "../src/screens/Lists";
+//import Lists from "../src/screens/Lists";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
+import OrderItems from "../src/screens/OrderItems";
 const Tab = createMaterialTopTabNavigator();
 
 function Index() {
@@ -17,7 +17,10 @@ function Index() {
           headerShadowVisible: false,
         }}
       />
-      <Tab.Navigator>
+      <View>
+      <OrderItems/>
+      </View>
+      {/* <Tab.Navigator>
         <Tab.Screen
           name="Pending"
           component={Lists}
@@ -33,7 +36,7 @@ function Index() {
           component={Lists}
           initialParams={{ status: "Rejected" }} 
         />
-      </Tab.Navigator>
+      </Tab.Navigator> */}
     </SafeAreaView>
   );
 }
