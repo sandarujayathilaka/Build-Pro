@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
+import { View} from "react-native";
 import React from "react";
-import RejectionDetails from "../../src/screens/RejectionDetail";
+import CheckedDetails from "../../src/screens/CheckedDetails";
 import { useGlobalSearchParams } from "expo-router";
 
 const RejectDetailsPage = () => {
@@ -11,7 +11,7 @@ const RejectDetailsPage = () => {
 
   return (
     <View>
-      <RejectionDetails orderId={orderId} deliveryObId={deliveryObId} />
+      <CheckedDetails orderId={orderId} deliveryObId={deliveryObId} />
     </View>
   );
 };
